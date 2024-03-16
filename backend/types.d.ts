@@ -1,5 +1,11 @@
 import {Model} from "mongoose";
 
+export interface UserData {
+  email:string,
+  password: string,
+  displayName: string
+}
+
 export interface UserFields {
   email: string;
   password: string;

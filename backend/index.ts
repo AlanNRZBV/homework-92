@@ -1,22 +1,23 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-
 import config from './config';
-import productsRouter from './routers/products';
-import categoriesRouter from './routers/categories';
 import usersRouter from './routers/users';
+import messagesRouter from './routers/messages';
+import expressWs from 'express-ws';
+import { ActiveConnections } from './types';
 
 
 const app = express();
+expressWs(app)
 const port = 8000;
+
 
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
 
-app.use('/products', productsRouter);
-app.use('/categories', categoriesRouter);
+app.use('/messages', messagesRouter);
 app.use('/users', usersRouter);
 
 const run = async () => {

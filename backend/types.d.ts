@@ -5,9 +5,12 @@ export interface ActiveConnections {
   [id:string]: WebSocket
 }
 
-export interface IncomingMessage{
+export interface IncomingLoginMessage{
   type:string,
   payload: string
+}
+export interface UserOnline {
+  displayName:string
 }
 
 
@@ -23,13 +26,15 @@ export interface UserFields {
   token: string;
   role: string
   displayName?: string,
-  googleID?: string
+  isOnline: boolean
+
 }
 
 interface UserMethods {
-
   checkPassword(password: string): Promise<boolean>;
   generateToken(): void;
+  setOnline():void
+  setOffline():void
 }
 
 

@@ -28,31 +28,35 @@ const run = async () => {
   await User.create([
     {
       email: 'user@test.com',
-      password: '5str0ngPswrd',
+      password: '5tr0ngPswrd',
       token: crypto.randomUUID(),
       role: 'client',
       displayName: 'us0r',
+      isOnline:false
     },
     {
       email: 'admin@test.com',
-      password: '5str0ngPswrd',
+      password: '5tr0ngPswrd',
       token: crypto.randomUUID(),
       role: 'admin',
       displayName: 'Mr.Anderson',
+      isOnline:false
     },
     {
       email: 'user1@test.com',
-      password: '5str0ngPswrd',
+      password: '5tr0ngPswrd',
       token: crypto.randomUUID(),
       role: 'client',
       displayName: 'John Doe',
+      isOnline:false
     },
     {
       email: 'user2@test.com',
-      password: '5str0ngPswrd',
+      password: '5tr0ngPswrd',
       token: crypto.randomUUID(),
       role: 'client',
       displayName: 'Jane Doe',
+      isOnline:false
     },
   ]);
 

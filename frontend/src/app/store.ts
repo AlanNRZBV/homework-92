@@ -11,6 +11,8 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { messagesReducer } from '../features/Messages/messagesSlice.ts';
+import { webSocketReducer } from '../features/WebSocket/webSocketSlice.ts';
 
 const usersPersistConfig = {
   key: 'chat:users',
@@ -19,6 +21,8 @@ const usersPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+  webSocket: webSocketReducer,
+  messages: messagesReducer,
   users: persistReducer(usersPersistConfig, usersReducer),
 });
 

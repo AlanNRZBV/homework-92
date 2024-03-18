@@ -1,11 +1,7 @@
-import React from 'react';
+import { Grid } from '@mui/material';
 
 const Messages = () => {
-  return (
-    <div>
-      messages
-    </div>
-  );
+  return <Grid item>messages</Grid>;
 };
 
 export default Messages;

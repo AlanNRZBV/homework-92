@@ -42,6 +42,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
     }
 
     user.generateToken();
+  user.setOnline()
     await user.save();
 
     return res.send({ message: 'Email and password is correct!', user });

@@ -30,6 +30,11 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
     type: String,
     required: true,
   },
+  isOnline: {
+    type: Boolean,
+    required: true,
+    default: false
+  }
 });
 
 UserSchema.methods.checkPassword = function (password: string) {
@@ -39,6 +44,13 @@ UserSchema.methods.checkPassword = function (password: string) {
 UserSchema.methods.generateToken = function () {
   this.token = randomUUID();
 };
+
+UserSchema.methods.setOnline = function(){
+  this.isOnline = true;
+}
+UserSchema.methods.setOffline = function(){
+  this.isOnline = false;
+}
 
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

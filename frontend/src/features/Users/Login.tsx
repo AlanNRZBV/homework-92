@@ -15,8 +15,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLoginError } from './usersSlice';
-import { googleLogin, login } from './usersThunks';
-import { GoogleLogin } from '@react-oauth/google';
+import { login } from './usersThunks';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,11 +25,6 @@ const Login = () => {
     email: '',
     password: '',
   });
-
-  const googleLoginHandler = async (credential: string) => {
-    await dispatch(googleLogin(credential)).unwrap();
-    navigate('/');
-  };
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -43,6 +37,7 @@ const Login = () => {
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     await dispatch(login(state)).unwrap();
+
     navigate('/');
   };
 

@@ -1,3 +1,20 @@
+export interface IncomingChatMessage {
+  type: string;
+  payload: ChatMessage[];
+}
+export interface ChatMessage {
+  content: string;
+}
+export interface IncomingUsersMessage {
+  type: string;
+  payload: UsersWithStatusp[];
+}
+
+export interface UsersWithStatus {
+  displayName: string;
+  isOnline: boolean;
+}
+
 export interface RegisterMutation {
   email: string;
   password: string;
@@ -15,7 +32,7 @@ export interface User {
   token: string;
   role: string;
   displayName: string;
-  googleID?: string;
+  isOnline: boolean;
 }
 
 export interface ValidationError {

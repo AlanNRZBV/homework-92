@@ -6,6 +6,7 @@ import { loadUsersWithStatus, selectUser } from '../Users/usersSlice.ts';
 import { useEffect } from 'react';
 import { connect, webSocket } from '../WebSocket/webSocketSlice.ts';
 import { IncomingUsersMessage } from '../../types';
+import { loadMessages } from '../Messages/messagesSlice.ts';
 
 const CustomContainer = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,9 @@ const CustomContainer = () => {
         const decodedMessage = JSON.parse(e.data) as IncomingUsersMessage;
         if (decodedMessage.type === 'USERS_TOTAL') {
           dispatch(loadUsersWithStatus(decodedMessage.payload));
+        }
+        if (decodedMessage.type === 'LAST_MESSAGES') {
+          dispatch(loadMessages(decodedMessage.payload));
         }
       };
     }

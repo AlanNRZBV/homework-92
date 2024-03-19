@@ -19,15 +19,23 @@ const MessageSchema = new Schema({
       message: 'User does not exist!',
     },
   },
+  recipient:{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    validate: {
+      validator: async (value: Types.ObjectId) => {
+        const user = await User.findById(value);
+        return Boolean(user);
+      },
+      message: 'User does not exist!',
+    },
+  },
   datetime: {
     type: Date,
     required: true,
     default: () => new Date(),
   },
-  isResponse:{
-    type:Boolean,
-    default: false
-  }
+
 
 });
 

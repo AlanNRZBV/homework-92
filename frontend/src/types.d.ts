@@ -3,7 +3,14 @@ export interface IncomingChatMessage {
   payload: ChatMessage[];
 }
 export interface ChatMessage {
+  _id: string;
   content: string;
+  userId: {
+    _id: string;
+    displayName: string;
+  };
+  recipient?: string;
+  datetime: string;
 }
 export interface IncomingUsersMessage {
   type: string;

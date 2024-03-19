@@ -7,6 +7,7 @@ import messagesRouter from './routers/messages';
 import expressWs from 'express-ws';
 import { ActiveConnections, IncomingLoginMessage, UserOnline } from './types';
 import User from './models/User';
+import Message from './models/Message';
 
 
 const app = express();
@@ -29,6 +30,12 @@ router.ws('/chat', (ws, _req, _next) => {
 
     if (parsedMessage.type === 'LOGIN') {
       const user = await User.findOne({ token: parsedMessage.payload });
+
+      if(!user?.isOnline){
+        user?.setOnline()
+        user?.save()
+      }
+
       if (user) {
         console.log(`Client ${user.displayName} connected`);
         id = parsedMessage.payload
@@ -46,13 +53,19 @@ router.ws('/chat', (ws, _req, _next) => {
     }
 
     const usersTotal = await User.find().select('-_id -password -token -email -role');
+    const lastMessages = await Message.find().sort({datetime: -1}).limit(30)
 
     Object.values(activeConnections).forEach((connection) => {
-      const outgoingMsg = {
+      const outgoingMsgWithUsers = {
         type: 'USERS_TOTAL',
         payload: usersTotal,
       };
-      connection.send(JSON.stringify(outgoingMsg));
+      const outgoingMsgWithMessages = {
+        type:'LAST_MESSAGES',
+        payload: lastMessages
+      }
+      connection.send(JSON.stringify(outgoingMsgWithUsers));
+      connection.send(JSON.stringify(outgoingMsgWithMessages));
     });
   });
 

@@ -1,7 +1,3 @@
-export interface IncomingChatMessage {
-  type: string;
-  payload: ChatMessage[];
-}
 export interface ChatMessage {
   _id: string;
   content: string;
@@ -12,12 +8,18 @@ export interface ChatMessage {
   recipient?: string;
   datetime: string;
 }
+export interface ChatMessageMutation {
+  userId: string;
+  content: string;
+  recipient: string;
+}
 export interface IncomingUsersMessage {
   type: string;
-  payload: UsersWithStatusp[];
+  payload: UsersWithStatus[];
 }
 
 export interface UsersWithStatus {
+  _id: string;
   displayName: string;
   isOnline: boolean;
 }

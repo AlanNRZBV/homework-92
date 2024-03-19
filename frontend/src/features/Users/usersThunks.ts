@@ -82,14 +82,12 @@ export const logout = createAsyncThunk<void, undefined, { state: RootState }>(
     const ws = getState().webSocket.socket;
 
     if (ws) {
-      ws.onclose = () => {
-        ws.send(
-          JSON.stringify({
-            type: 'LOGOUT',
-            payload: token,
-          }),
-        );
-      };
+      ws.send(
+        JSON.stringify({
+          type: 'LOGOUT',
+          payload: token,
+        }),
+      );
     }
 
     await axiosApi.delete('/users/sessions');

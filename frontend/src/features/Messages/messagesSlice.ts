@@ -17,7 +17,7 @@ export const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    loadMessages: (state, action: { payload: ChatMessage[] }) => {
+    loadMessages: (state, action) => {
       state.messages = action.payload;
     },
   },

@@ -9,6 +9,16 @@ export interface IncomingLoginMessage{
   type:string,
   payload: string
 }
+export interface IncomingMessageDataMessage{
+  type:string,
+  payload: MessageData
+}
+
+export interface MessageData{
+  userId: string,
+  content: string,
+  recipient: string
+}
 export interface UserOnline {
   displayName:string
 }

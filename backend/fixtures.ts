@@ -98,6 +98,11 @@ const run = async () => {
       content:'asdfgh asdfgh',
       userId: janeDoe?._id
     },
+    {
+      content:'whisper message',
+      userId: janeDoe?._id,
+      recipient: defaultUser?._id
+    },
   ])
 
   await db.close();

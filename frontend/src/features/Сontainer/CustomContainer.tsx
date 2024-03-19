@@ -37,6 +37,15 @@ const CustomContainer = () => {
           dispatch(loadMessages(decodedMessage.payload));
         }
       };
+
+      socket.onclose = () => {
+        socket.send(
+          JSON.stringify({
+            type: 'LOGOUT',
+            payload: user?.token,
+          }),
+        );
+      };
     }
   }, [dispatch, socket, user]);
 

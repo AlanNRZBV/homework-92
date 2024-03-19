@@ -92,9 +92,7 @@ export const logout = createAsyncThunk<void, undefined, { state: RootState }>(
       };
     }
 
-    await axiosApi.delete('/users/sessions', {
-      headers: { Authorization: 'Bearer' + token },
-    });
+    await axiosApi.delete('/users/sessions');
     dispatch(unsetUser());
   },
 );

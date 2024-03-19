@@ -29,6 +29,7 @@ usersRouter.post('/', async (req, res, next) => {
 
 usersRouter.post('/sessions', async (req, res, next) => {
   try {
+
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {

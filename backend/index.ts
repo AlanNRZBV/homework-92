@@ -18,48 +18,56 @@ const router = express.Router();
 
 const activeConnections: ActiveConnections = {};
 
-router.ws('/chat',(ws, _req, _next) => {
-  const id = crypto.randomUUID();
-  console.log('Client connected');
-  activeConnections[id] = ws;
+
+router.ws('/chat', (ws, _req, _next) => {
+
+  let id: string
 
   ws.on('message', async (message) => {
+
     const parsedMessage = JSON.parse(message.toString()) as IncomingLoginMessage;
+
     if (parsedMessage.type === 'LOGIN') {
-      const user = await User.findOne({token:parsedMessage.payload})
-      const usersOnline = await User.find().select('-_id -password -token -email -role')
-      Object.values(activeConnections).forEach((connection) => {
-        const outgoingMsg = {
-          type: 'USERS_TOTAL',
-          payload: usersOnline,
-        };
-        connection.send(JSON.stringify(outgoingMsg));
-      });
+      const user = await User.findOne({ token: parsedMessage.payload });
+      if (user) {
+        console.log(`Client ${user.displayName} connected`);
+        id = parsedMessage.payload
+        activeConnections[id] = ws;
+      }
     }
 
-    if(parsedMessage.type === 'LOGOUT')
-    {
-      const user = await User.findOne({token:parsedMessage.payload})
-      user?.setOffline()
-      await user?.save()
-
-      const usersOnline = await User.find().select('-_id -password -token -email -role')
-
-      Object.values(activeConnections).forEach((connection) => {
-        const outgoingMsg = {
-          type: 'USERS_TOTAL',
-          payload: usersOnline,
-        };
-        connection.send(JSON.stringify(outgoingMsg));
-      });
-
-
+    if (parsedMessage.type === 'LOGOUT') {
+      const user = await User.findOne({ token: parsedMessage.payload });
+      if (user) {
+        user.setOffline();
+        await user.save();
+        delete activeConnections[id];
+      }
     }
+
+    const usersTotal = await User.find().select('-_id -password -token -email -role');
+
+    Object.values(activeConnections).forEach((connection) => {
+      const outgoingMsg = {
+        type: 'USERS_TOTAL',
+        payload: usersTotal,
+      };
+      connection.send(JSON.stringify(outgoingMsg));
+    });
   });
 
-  ws.on('close', () => {
-    console.log('Client disconnected');
-    delete activeConnections[id];
+  ws.on('close', async () => {
+
+    const user = await User.findOne({token:id})
+
+    console.log(user ? `Client ${user.displayName} disconnected`:'Something went wrong');
+
+      if (user) {
+        user.setOffline();
+        await user.save();
+        delete activeConnections[id];
+      }
+
   });
 });
 

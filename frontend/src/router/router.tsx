@@ -3,7 +3,7 @@ import Layout from '../layout/layout.tsx';
 import Login from '../features/Users/Login.tsx';
 import NotFound from '../components/UI/NotFound/NotFound.tsx';
 import Register from '../features/Users/Register.tsx';
-import Container from '../features/Сontainer/Container.tsx';
+import CustomContainer from '../features/Сontainer/CustomContainer.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Container />,
+        element: <CustomContainer />,
       },
       {
         path: '/login',
